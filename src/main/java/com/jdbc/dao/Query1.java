@@ -66,9 +66,46 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
 
     @Override
     public List<Employee> get(Date work_start_date, int salary) {
+        Connection dbConnection = null;
+        PreparedStatement preparedStatement = null;
+        Employee employee = new Employee();
 
+        try {
+/* ? */            String sqlQuery = "SELECT id, department_id, work_start_date, name, salary FROM employee WHERE work_start_date = ?, salary = ?";
+            dbConnection = getConnection();
+            preparedStatement = dbConnection.prepareStatement(sqlQuery);
+            preparedStatement.setDate(1, employee.getWork_start_date());
+            preparedStatement.setInt(2, employee.getSalary());
 
-        return null;
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {                                  //
+                employee.setId(resultSet.getInt("id"));
+                employee.setDepartment_id(resultSet.getInt("department_id"));
+                employee.setWork_start_date(resultSet.getDate("work_start_date"));
+                employee.setName(resultSet.getString("name"));
+                employee.setSalary(resultSet.getInt("salary"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;                                                //
     }
 
     @Override
@@ -81,4 +118,3 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
         
     }
 }
-    SELECT id, department_id, work_start_date, name, salary FROM employee WHERE work_start_date = ?, salary = ?
