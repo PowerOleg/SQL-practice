@@ -65,47 +65,48 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
     }
 
     @Override
-    public List<Employee> get(Date work_start_date, int salary) {
-        Connection dbConnection = null;
-        PreparedStatement preparedStatement = null;
-        Employee employee = new Employee();
+    public Employee/*List<Employee>*/ get(Date work_start_date, int salary) {
+    Connection dbConnection = null;
+    PreparedStatement preparedStatement = null;
+    Employee employee = new Employee();
 
         try {
-/* ? */            String sqlQuery = "SELECT id, department_id, work_start_date, name, salary FROM employee WHERE work_start_date = ?, salary = ?";
-            dbConnection = getConnection();
-            preparedStatement = dbConnection.prepareStatement(sqlQuery);
-            preparedStatement.setDate(1, employee.getWork_start_date());
-            preparedStatement.setInt(2, employee.getSalary());
+            /* ? */       String sqlQuery = "SELECT id, department_id, work_start_date," +
+            " name, salary FROM employee WHERE work_start_date = ? AND salary = ?";
+                dbConnection = getConnection();
+                preparedStatement = dbConnection.prepareStatement(sqlQuery);
+                preparedStatement.setDate(1, employee.getWork_start_date());
+                preparedStatement.setInt(2, employee.getSalary());
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {                                  //
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {                                  //
                 employee.setId(resultSet.getInt("id"));
                 employee.setDepartment_id(resultSet.getInt("department_id"));
                 employee.setWork_start_date(resultSet.getDate("work_start_date"));
                 employee.setName(resultSet.getString("name"));
                 employee.setSalary(resultSet.getInt("salary"));
-            }
+                }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             if (preparedStatement != null) {
                 try {
-                    preparedStatement.close();
+                preparedStatement.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                e.printStackTrace();
                 }
-            }
-            if (dbConnection != null) {
+                }
+                if (dbConnection != null) {
                 try {
-                    dbConnection.close();
+                dbConnection.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                e.printStackTrace();
                 }
-            }
-        }
+                }
+                }
 
-        return null;                                                //
+        return employee;                                                //
     }
 
     @Override
@@ -118,3 +119,13 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
         
     }
 }
+
+
+
+
+
+
+
+
+
+
