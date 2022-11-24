@@ -7,9 +7,7 @@ import com.mysql.fabric.xmlrpc.base.Data;
 import static com.jdbc.Configs.*;
 import static com.jdbc.Const.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class Query1 implements EmployeeCommands, DepartmentCommands {
@@ -32,11 +30,44 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
 
     @Override
     public void insert(Employee employee) {
+    Connection dbConnection = null;
+    PreparedStatement preparedStatement = null;
+
+        try {
+            String sqlQuery = "INSERT INTO employee (department_id, work_start_date, name, salary) VALUES (?,?,?,?)";
+            dbConnection = getConnection();
+            preparedStatement = dbConnection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, employee.getDepartment_id());
+            preparedStatement.setDate(2, employee.getWork_start_date());
+            preparedStatement.setString(3, employee.getName());
+            preparedStatement.setInt(4, employee.getSalary());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
     }
 
     @Override
-    public List<Employee> get(Data work_start_date, int salary) {
+    public List<Employee> get(Date work_start_date, int salary) {
+
+
         return null;
     }
 
@@ -50,3 +81,4 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
         
     }
 }
+    SELECT id, department_id, work_start_date, name, salary FROM employee WHERE work_start_date = ?, salary = ?
