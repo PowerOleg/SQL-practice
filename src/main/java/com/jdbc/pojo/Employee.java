@@ -6,7 +6,7 @@ import java.sql.Date;
 
 public class Employee {
     private int id;
-    private int department_id;
+    private Integer department_id;
 //    long now = System.currentTimeMillis();
 //    Date sqlDate = new Date(now);
     private Date work_start_date;
@@ -15,7 +15,7 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(int department_id, Date work_start_date, String name, int salary) {
+    public Employee(Integer department_id, Date work_start_date, String name, int salary) {
 //        this.id = id;
         this.department_id = department_id;
         this.work_start_date = work_start_date;
@@ -27,7 +27,7 @@ public class Employee {
         return id;
     }
 
-    public int getDepartment_id() {
+    public Integer getDepartment_id() {
         return department_id;
     }
 
@@ -47,7 +47,7 @@ public class Employee {
         this.id = id;
     }
 
-    public void setDepartment_id(int department_id) {
+    public void setDepartment_id(Integer department_id) {
         this.department_id = department_id;
     }
 

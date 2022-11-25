@@ -34,14 +34,30 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
     PreparedStatement preparedStatement = null;
 
         try {
-            String sqlQuery = "INSERT INTO employee (department_id, work_start_date, name, salary) VALUES (?,?,?,?)";
             dbConnection = getConnection();
-            preparedStatement = dbConnection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1, employee.getDepartment_id());
-            preparedStatement.setDate(2, employee.getWork_start_date());
-            preparedStatement.setString(3, employee.getName());
-            preparedStatement.setInt(4, employee.getSalary());
-            preparedStatement.executeUpdate();
+            String sqlQuery = null;
+            if (employee.getDepartment_id() == null) {
+                sqlQuery = "INSERT INTO employee (work_start_date, name, salary) VALUES (?,?,?)";
+                preparedStatement = dbConnection.prepareStatement(sqlQuery);
+
+                preparedStatement.setDate(1, employee.getWork_start_date());
+                preparedStatement.setString(2, employee.getName());
+                preparedStatement.setInt(3, employee.getSalary());
+                preparedStatement.executeUpdate();
+            } else {
+                sqlQuery = "INSERT INTO employee (department_id, work_start_date, name, salary) VALUES (?,?,?,?)";
+                preparedStatement = dbConnection.prepareStatement(sqlQuery);
+
+                preparedStatement.setInt(1, employee.getDepartment_id());
+                preparedStatement.setDate(2, employee.getWork_start_date());
+                preparedStatement.setString(3, employee.getName());
+                preparedStatement.setInt(4, employee.getSalary());
+                preparedStatement.executeUpdate();
+            }
+
+
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
