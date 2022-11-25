@@ -116,7 +116,37 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
 
     @Override
     public void insertDepartment(Department department) {
-        
+        Connection dbConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String sqlQuery = "INSERT INTO department (id, name, lead_id) VALUES (?,?,?)";
+            dbConnection = getConnection();
+            preparedStatement = dbConnection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, department.getId());
+            preparedStatement.setString(2, department.getName());
+            preparedStatement.setInt(3, department.getLead_id());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }
 
