@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface EmployeeCommands {
     void insert(Employee employee);
-    /*List<Employee>*/Employee get (Date work_start_date, int salary);
+    /*List<Employee>*/Employee select (Date work_start_date, int salary);
     void remove(Employee employee);
 }

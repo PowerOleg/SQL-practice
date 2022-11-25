@@ -81,7 +81,7 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
     }
 
     @Override
-    public Employee/*List<Employee>*/ get(Date work_start_date, int salary) {
+    public Employee/*List<Employee>*/ select(Date work_start_date, int salary) {
     Connection dbConnection = null;
     PreparedStatement preparedStatement = null;
     Employee employee = new Employee();
@@ -91,8 +91,8 @@ public class Query1 implements EmployeeCommands, DepartmentCommands {
             " name, salary FROM employee WHERE work_start_date = ? AND salary = ?";
                 dbConnection = getConnection();
                 preparedStatement = dbConnection.prepareStatement(sqlQuery);
-                preparedStatement.setDate(1, employee.getWork_start_date());
-                preparedStatement.setInt(2, employee.getSalary());
+                preparedStatement.setDate(1, work_start_date);
+                preparedStatement.setInt(2, salary);
 
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {                                  //

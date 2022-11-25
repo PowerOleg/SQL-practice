@@ -15,7 +15,7 @@ public class Main {
 //        Date sqlDate1 = Date.valueOf("2001-01-01");
 //        Date sqlDate2 = Date.valueOf("2011-01-01");
 //        Date sqlDate3 = Date.valueOf("2021-01-01");
-//        Date sqlDate4 = Date.valueOf("2022-01-01");
+        Date sqlDate4 = Date.valueOf("2022-01-01");
 //        Date sqlDate5 = Date.valueOf("2022-06-01");
 //        Employee employee1 = new Employee(205, sqlDate1, "Danil", 30000);
 //        Employee employee2 = new Employee(210, sqlDate2, "Oleg", 40000);
@@ -28,7 +28,7 @@ public class Main {
 //        Department department3 = new Department(299, "Laboratory", 3);
 //        Department department4 = new Department(940, "Leading", 4);
         Query1 query1 = new Query1();
-        query1.get()
-
+        Employee selectedEmployee = query1.select(sqlDate4, 60000);
+        System.out.println(selectedEmployee);
     }
 }
